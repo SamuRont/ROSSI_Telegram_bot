@@ -1,0 +1,1 @@
+nome bot: PokemonInfoRossi_bot

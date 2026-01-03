@@ -8,8 +8,18 @@ public class DatabaseManager {
 
     private static final String URL = "jdbc:sqlite:bot.db";
 
+    // ✅ Metodo per ottenere la connessione (USATO DA TUTTI I COMANDI)
+    public static Connection connect() {
+        try {
+            return DriverManager.getConnection(URL);
+        } catch (Exception e) {
+            throw new RuntimeException("Errore connessione SQLite", e);
+        }
+    }
+
+    // ✅ Inizializzazione DB e tabelle
     public static void init() {
-        try (Connection c = DriverManager.getConnection(URL);
+        try (Connection c = connect();
              Statement s = c.createStatement()) {
 
             s.execute("""

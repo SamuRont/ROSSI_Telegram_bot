@@ -19,22 +19,31 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
 
     @Override
     public void consume(Update update) {
-        if (!update.hasMessage() || !update.getMessage().hasText()) return;
+        System.out.println("📩 Messaggio ricevuto!"); // ⭐ AGGIUNGI QUESTO
 
-        String t = update.getMessage().getText();
+        if (!update.hasMessage() || !update.getMessage().hasText()) {
+            System.out.println("⚠️ Messaggio senza testo"); // ⭐ AGGIUNGI QUESTO
+            return;
+        }
 
-        if (t.startsWith("/start")) new StartCommand().run(client, update);
-        else if (t.startsWith("/help")) new HelpCommand().run(client, update);
-        else if (t.startsWith("/look")) new LookCommand().run(client, update);
-        else if (t.startsWith("/rarity")) new RarityCommand().run(client, update);
-        else if (t.startsWith("/attack")) new AttackCommand().run(client, update);
-        else if (t.startsWith("/setinfo")) new SetInfoCommand().run(client, update);
-        else if (t.startsWith("/compare")) new CompareCommand().run(client, update);
-        else if (t.startsWith("/deck")) new DeckCommand().run(client, update);
-        else if (t.startsWith("/stats")) new StatsCommand().run(client, update);
-        else if (t.startsWith("/type")) new TypeCommand().run(client, update);
-        else if (t.startsWith("/history")) new HistoryCommand().run(client, update);
-        else if (t.startsWith("/recommend")) new RecommendCommand().run(client, update);
+        String text = update.getMessage().getText();
+        System.out.println("📝 Testo: " + text); // ⭐ AGGIUNGI QUESTO
 
+        // Routing comandi
+        if (text.startsWith("/start")) new StartCommand().run(client, update);
+        else if (text.startsWith("/help")) new HelpCommand().run(client, update);
+        else if (text.startsWith("/look")) new LookCommand().run(client, update);
+        else if (text.startsWith("/rarity")) new RarityCommand().run(client, update);
+        else if (text.startsWith("/attack")) new AttackCommand().run(client, update);
+        else if (text.startsWith("/setinfo")) new SetInfoCommand().run(client, update);
+        else if (text.startsWith("/compare")) new CompareCommand().run(client, update);
+        else if (text.startsWith("/deck")) new DeckCommand().run(client, update);
+        else if (text.startsWith("/stats")) new StatsCommand().run(client, update);
+        else if (text.startsWith("/type")) new TypeCommand().run(client, update);
+        else if (text.startsWith("/history")) new HistoryCommand().run(client, update);
+        else if (text.startsWith("/recommend")) new RecommendCommand().run(client, update);
+        else if (text.startsWith("/globalstats")) new GlobalStatsCommand().run(client, update);
+        else if (text.startsWith("/savedeck")) new SaveDeckCommand().run(client, update);
+        else if (text.startsWith("/mydecks")) new MyDecksCommand().run(client, update);
     }
 }

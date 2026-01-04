@@ -6,27 +6,46 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-public class HistoryCommand {
+public class HistoryCommand extends StartCommand {
 
     public void run(TelegramClient client, Update update) {
-        StringBuilder out = new StringBuilder("📜 Cronologia ricerche:\n");
+        long telegramId = update.getMessage().getFrom().getId();
+
+        DatabaseManager.incrementCommandUsage("/history");
+
+        StringBuilder out = new StringBuilder("📜 TUA CRONOLOGIA RICERCHE:\n\n");
 
         try (Connection c = DatabaseManager.connect();
-             Statement s = c.createStatement()) {
+             PreparedStatement ps = c.prepareStatement(
+                     "SELECT card, searched_at FROM searched_cards " +
+                             "WHERE telegram_id = ? " +
+                             "ORDER BY searched_at DESC LIMIT 15"
+             )) {
 
-            ResultSet rs = s.executeQuery(
-                    "SELECT card FROM searched_cards ORDER BY ROWID DESC LIMIT 10"
-            );
+            ps.setString(1, String.valueOf(telegramId));
+            ResultSet rs = ps.executeQuery();
 
+            int count = 0;
             while (rs.next()) {
-                out.append("- ").append(rs.getString("card")).append("\n");
+                count++;
+                out.append(count).append(". ")
+                        .append(rs.getString("card"))
+                        .append("\n");
+            }
+
+            if (count == 0) {
+                out.append("Nessuna ricerca effettuata ancora.\n");
+                out.append("\n💡 Prova con /look Pikachu");
+            } else {
+                out.append("\n📊 Totale ricerche: ").append(count);
             }
 
         } catch (Exception e) {
-            out.append("Nessun dato disponibile.");
+            out.append("❌ Errore nel recupero della cronologia.");
+            System.err.println("Errore HistoryCommand: " + e.getMessage());
         }
 
         try {
@@ -34,6 +53,8 @@ public class HistoryCommand {
                     .chatId(update.getMessage().getChatId())
                     .text(out.toString())
                     .build());
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            System.err.println("Errore invio messaggio: " + e.getMessage());
+        }
     }
 }

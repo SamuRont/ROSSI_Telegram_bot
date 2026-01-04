@@ -3,21 +3,34 @@ package org.example.commands;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.example.api.PokemonApiClient;
+import org.example.database.DatabaseManager;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-public class StatsCommand {
+public class StatsCommand extends StartCommand {
 
     public void run(TelegramClient client, Update update) {
         String name = update.getMessage().getText().replace("/stats", "").trim();
-        if (name.isEmpty()) return;
+
+        if (name.isEmpty()) {
+            send(client, update, "⚠️ Uso: /stats <nome carta>\nEsempio: /stats Charizard");
+            return;
+        }
+
+        DatabaseManager.incrementCommandUsage("/stats");
+        DatabaseManager.saveCardSearch(name, update.getMessage().getFrom().getId());
 
         JsonObject card = PokemonApiClient.getFirstCard("name:" + name);
-        if (card == null) return;
+
+        if (card == null) {
+            send(client, update, "❌ Carta non trovata: " + name);
+            return;
+        }
 
         StringBuilder text = new StringBuilder();
+        text.append("📊 STATISTICHE DETTAGLIATE\n\n");
         text.append("🃏 ").append(card.get("name").getAsString()).append("\n");
         text.append("❤️ HP: ").append(card.has("hp") ? card.get("hp").getAsString() : "N/A").append("\n");
 
@@ -40,14 +53,14 @@ public class StatsCommand {
         }
 
         if (card.has("attacks")) {
-            text.append("💥 Attacchi:\n");
+            text.append("\n💥 ATTACCHI:\n");
             JsonArray attacks = card.getAsJsonArray("attacks");
             for (var a : attacks) {
                 JsonObject atk = a.getAsJsonObject();
-                text.append("- ")
+                text.append("• ")
                         .append(atk.get("name").getAsString())
                         .append(" (")
-                        .append(atk.get("damage").getAsString())
+                        .append(atk.has("damage") ? atk.get("damage").getAsString() : "0")
                         .append(")\n");
             }
         }
@@ -65,7 +78,7 @@ public class StatsCommand {
                             .build()
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            send(client, update, text.toString());
         }
     }
 }

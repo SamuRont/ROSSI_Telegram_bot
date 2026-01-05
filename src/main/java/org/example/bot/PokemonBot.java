@@ -19,15 +19,11 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
 
     @Override
     public void consume(Update update) {
-        System.out.println("📩 Messaggio ricevuto!"); // ⭐ AGGIUNGI QUESTO
-
-        if (!update.hasMessage() || !update.getMessage().hasText()) {
-            System.out.println("⚠️ Messaggio senza testo"); // ⭐ AGGIUNGI QUESTO
-            return;
-        }
+        if (!update.hasMessage() || !update.getMessage().hasText()) return;
 
         String text = update.getMessage().getText();
-        System.out.println("📝 Testo: " + text); // ⭐ AGGIUNGI QUESTO
+        System.out.println("📩 Messaggio ricevuto!");
+        System.out.println("📝 Testo: " + text);
 
         // Routing comandi
         if (text.startsWith("/start")) new StartCommand().run(client, update);
@@ -35,7 +31,6 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
         else if (text.startsWith("/look")) new LookCommand().run(client, update);
         else if (text.startsWith("/rarity")) new RarityCommand().run(client, update);
         else if (text.startsWith("/attack")) new AttackCommand().run(client, update);
-        else if (text.startsWith("/setinfo")) new SetInfoCommand().run(client, update);
         else if (text.startsWith("/compare")) new CompareCommand().run(client, update);
         else if (text.startsWith("/deck")) new DeckCommand().run(client, update);
         else if (text.startsWith("/stats")) new StatsCommand().run(client, update);
@@ -45,5 +40,6 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
         else if (text.startsWith("/globalstats")) new GlobalStatsCommand().run(client, update);
         else if (text.startsWith("/savedeck")) new SaveDeckCommand().run(client, update);
         else if (text.startsWith("/mydecks")) new MyDecksCommand().run(client, update);
+        else if (text.startsWith("/position")) new PositionCommand().run(client, update);
     }
 }

@@ -14,7 +14,7 @@ public class ConfigLoader {
         } catch (IOException e) {
             System.err.println("❌ ERRORE: File config.properties non trovato!");
             System.err.println("💡 Rinomina config.properties in config.properties");
-            System.exit(1);
+            System.exit(-1);
         }
     }
 

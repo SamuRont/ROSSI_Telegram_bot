@@ -28,7 +28,6 @@ public class PokemonApiClient {
                 return null;
             }
 
-            // Check cache first
             if (cache.containsKey(name)) {
                 System.out.println("💾 Using cached data for: " + name);
                 return cache.get(name);
@@ -38,7 +37,6 @@ public class PokemonApiClient {
             JsonObject pokemon = request("/pokemon/" + name);
             JsonObject card = buildCard(pokemon, name);
 
-            // Save to cache
             cache.put(name, card);
 
             System.out.println("✅ Pokemon found: " + name);
@@ -54,18 +52,16 @@ public class PokemonApiClient {
         try {
             JsonArray cards = new JsonArray();
 
-            // ⭐ NUOVO: Usa l'API per prendere TUTTI i Pokemon di un tipo
+            //Usa l'API per prendere TUTTI i Pokemon di un tipo
             if (query.contains("types:")) {
                 String type = query.replace("types:", "").trim().toLowerCase();
                 System.out.println("🔍 Fetching ALL pokemon of type: " + type);
 
-                // Chiamata all'API per ottenere il tipo
                 JsonObject typeData = request("/type/" + type);
                 JsonArray pokemonArray = typeData.getAsJsonArray("pokemon");
 
                 System.out.println("📊 Found " + pokemonArray.size() + " pokemon of type " + type);
 
-                // Limita a 20 per non sovraccaricare (puoi modificare)
                 int limit = Math.min(100, pokemonArray.size());
 
                 for (int i = 0; i < limit; i++) {
@@ -83,14 +79,12 @@ public class PokemonApiClient {
                 return cards;
             }
 
-            // ⭐ NUOVO: Per rarity - cerca per rarità VERA (non default)
             if (query.contains("rarity:")) {
                 String rarity = query.replace("rarity:", "").trim().toLowerCase();
                 System.err.println("⚠️ Rarity search not fully supported by PokeAPI");
-                return cards; // Restituisce array vuoto invece di default
+                return cards;
             }
 
-            // ⭐ NUOVO: Per attacchi - cerca per mossa VERA
             if (query.contains("attacks.name:")) {
                 String moveName = query.replace("attacks.name:", "").replace("\"", "").trim().toLowerCase();
                 System.out.println("🔍 Fetching pokemon with move: " + moveName);
@@ -117,17 +111,15 @@ public class PokemonApiClient {
                     return cards;
                 } catch (Exception e) {
                     System.err.println("⚠️ Move not found: " + moveName);
-                    return cards; // Array vuoto
+                    return cards;
                 }
             }
 
-            // ⭐ NUOVO: Per set - non supportato, restituisce vuoto
             if (query.contains("set.id:")) {
                 System.err.println("⚠️ Set search not supported by PokeAPI");
-                return cards; // Array vuoto invece di default
+                return cards;
             }
 
-            // ⭐ RIMOSSO: Nessun default - se la query non è riconosciuta, array vuoto
             System.err.println("⚠️ Query type not recognized: " + query);
             return cards;
 
@@ -138,7 +130,6 @@ public class PokemonApiClient {
         }
     }
 
-    // Costruisce la carta da un JSON Pokemon
     private static JsonObject buildCard(JsonObject pokemon, String name) {
         JsonObject card = new JsonObject();
         card.addProperty("name", capitalizeFirstLetter(name));

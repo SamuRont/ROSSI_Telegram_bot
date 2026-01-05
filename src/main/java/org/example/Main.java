@@ -9,7 +9,7 @@ public class Main {
         String botToken = ConfigLoader.get("BOT_TOKEN");
 
         try (TelegramBotsLongPollingApplication app = new TelegramBotsLongPollingApplication()) {
-            app.registerBot(botToken, new PokemonBot());  // ⚠️ IMPORTANTE: due parametri!
+            app.registerBot(botToken, new PokemonBot());
             System.out.println("✅ Bot avviato correttamente!");
             System.out.println("📊 Database inizializzato");
             System.out.println("🤖 In attesa di messaggi...");

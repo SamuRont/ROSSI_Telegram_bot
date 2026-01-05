@@ -36,7 +36,7 @@ public class DatabaseManager {
                 );
             """);
 
-            // Tabella carte cercate (con timestamp)
+            // Tabella carte cercate
             s.execute("""
                 CREATE TABLE IF NOT EXISTS searched_cards(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -90,7 +90,7 @@ public class DatabaseManager {
         }
     }
 
-    // Incrementa contatore comando
+    // Incrementa contatore
     public static void incrementCommandUsage(String command) {
         String sql = """
             INSERT INTO command_usage(command, count) VALUES(?, 1)

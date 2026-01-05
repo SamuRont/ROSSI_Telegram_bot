@@ -29,7 +29,6 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
         if (text.startsWith("/start")) new StartCommand().run(client, update);
         else if (text.startsWith("/help")) new HelpCommand().run(client, update);
         else if (text.startsWith("/look")) new LookCommand().run(client, update);
-        else if (text.startsWith("/rarity")) new RarityCommand().run(client, update);
         else if (text.startsWith("/attack")) new AttackCommand().run(client, update);
         else if (text.startsWith("/compare")) new CompareCommand().run(client, update);
         else if (text.startsWith("/deck")) new DeckCommand().run(client, update);
@@ -41,5 +40,7 @@ public class PokemonBot implements LongPollingSingleThreadUpdateConsumer {
         else if (text.startsWith("/savedeck")) new SaveDeckCommand().run(client, update);
         else if (text.startsWith("/mydecks")) new MyDecksCommand().run(client, update);
         else if (text.startsWith("/position")) new PositionCommand().run(client, update);
+        else if (text.startsWith("/meta")) new MetaCommand().run(client, update);
+
     }
 }

@@ -197,6 +197,10 @@ public class PokemonApiClient {
 
         return images;
     }
+    public static JsonObject getType(String type) throws Exception {
+        return request("https://pokeapi.co/api/v2/type/" + type);
+    }
+
 
     // Estrae gli attacchi
     private static JsonArray getAttacks(JsonObject pokemon) {
@@ -233,4 +237,6 @@ public class PokemonApiClient {
         }
         return result.toString().trim();
     }
+
+
 }

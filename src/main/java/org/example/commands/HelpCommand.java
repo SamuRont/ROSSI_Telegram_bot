@@ -17,6 +17,7 @@ public class HelpCommand extends StartCommand {
             /rarity <rarità> - Cerca per rarità
             /attack <attacco> - Cerca per attacco
             /type <tipo> - Analizza un tipo
+            /meta <tipo> - Analisi statistica del meta game
             
             ⚔️ COMPARAZIONE
             /compare <carta1>;<carta2> - Confronta due Pokemon

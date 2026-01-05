@@ -45,16 +45,13 @@ public class MetaCommand extends StartCommand {
             out.append("📊 META ANALYSIS — ").append(input.toUpperCase()).append("\n\n");
             out.append("🎴 Numero Pokémon di questo tipo: ").append(count).append("\n\n");
 
-            // Top 5 Pokemon per HP
             out.append("🏆 TOP 5 PER HP:\n");
 
-            // Ordina per HP
             JsonArray sortedPokemon = new JsonArray();
             for (int i = 0; i < pokemon.size(); i++) {
                 sortedPokemon.add(pokemon.get(i));
             }
 
-            // Bubble sort semplice per HP
             for (int i = 0; i < sortedPokemon.size() - 1; i++) {
                 for (int j = 0; j < sortedPokemon.size() - i - 1; j++) {
                     JsonObject curr = sortedPokemon.get(j).getAsJsonObject();

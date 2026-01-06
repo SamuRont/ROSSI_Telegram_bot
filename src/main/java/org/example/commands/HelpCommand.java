@@ -14,7 +14,6 @@ public class HelpCommand extends StartCommand {
             
             🔍 RICERCA
             /look <nome> - Visualizza un Pokemon
-            /rarity <rarità> - Cerca per rarità
             /attack <attacco> - Cerca per attacco
             /type <tipo> - Analizza un tipo
             /meta <tipo> - Analisi statistica del meta game

@@ -31,7 +31,6 @@ public class MetaCommand extends StartCommand {
         try {
             System.out.println("🔍 Meta analysis for type: " + input);
 
-            // Usa il metodo getCards già esistente
             JsonArray pokemon = PokemonApiClient.getCards("types:" + input);
 
             if (pokemon.size() == 0) {

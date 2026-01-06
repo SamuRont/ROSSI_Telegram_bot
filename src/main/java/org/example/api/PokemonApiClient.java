@@ -52,7 +52,6 @@ public class PokemonApiClient {
         try {
             JsonArray cards = new JsonArray();
 
-            //Usa l'API per prendere TUTTI i Pokemon di un tipo
             if (query.contains("types:")) {
                 String type = query.replace("types:", "").trim().toLowerCase();
                 System.out.println("🔍 Fetching ALL pokemon of type: " + type);

@@ -47,7 +47,7 @@ public class DeckCommand extends StartCommand {
             list.add(el.getAsJsonObject());
         }
 
-        // Ordinamento per POTENZA
+        // Ordinamento per hp
         list.sort(Comparator.comparingInt((JsonObject card) -> {
             if (card.has("hp")) {
                 try {

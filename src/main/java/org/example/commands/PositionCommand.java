@@ -17,7 +17,7 @@ public class PositionCommand extends StartCommand {
                 
                 Luoghi disponibili:
                 • calli - Viale Alessandro Manzoni 38, Vicenza
-                • boraso - Contrà Mure S. Michele 33, Vicenza
+                • boraso - Piazzola Gualdi 3, Vicenza
                 
                 Esempio: /position calli
                 """);
@@ -39,8 +39,8 @@ public class PositionCommand extends StartCommand {
                 address = "Viale Alessandro Manzoni 38, Vicenza";
             }
             case "boraso" -> {
-                latitude = 45.544759665825566;
-                longitude = 11.549278530045234;
+                latitude = 45.54494624007369;
+                longitude = 11.54876128111555;
                 locationName = "Boraso";
                 address = "Contrà Mure S. Michele 33, Vicenza";
             }

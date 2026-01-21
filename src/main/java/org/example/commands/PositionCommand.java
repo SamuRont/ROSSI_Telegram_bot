@@ -18,6 +18,8 @@ public class PositionCommand extends StartCommand {
                 Luoghi disponibili:
                 • calli - Viale Alessandro Manzoni 38, Vicenza
                 • boraso - Piazzola Gualdi 3, Vicenza
+                • Iris - Via Giuliano Ziggiotti 2, Arzignano
+                
                 
                 Esempio: /position calli
                 """);
@@ -44,6 +46,12 @@ public class PositionCommand extends StartCommand {
                 locationName = "Boraso";
                 address = "Contrà Mure S. Michele 33, Vicenza";
             }
+            case "iris" -> {
+                latitude = 45.553278204777186;
+                longitude = 11.558680554132424;
+                locationName = "Iris";
+                address = "Via Giuliano Ziggiotti 2, Arzignano";
+            }
             default -> {
                 send(c, u, """
                     ❌ Luogo non riconosciuto: %s
@@ -51,6 +59,7 @@ public class PositionCommand extends StartCommand {
                     Luoghi disponibili:
                     • calli
                     • boraso
+                    • iris
                     
                     Usa /position <luogo>
                     """.formatted(input));
